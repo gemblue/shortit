@@ -173,7 +173,7 @@ if (strpos($path, '/admin') === 0){
 
 // Root: simple landing
 if ($path === '/' || $path === ''){
-    echo "<h2 style='font-family:system-ui, -apple-system; padding:2rem'>Shortit — ready. Admin: <a href='/admin/login'>/admin/login</a></h2>";
+    header('Location: https://codepolitan.com', true, 302);
     exit;
 }
 
