@@ -12,6 +12,15 @@ function get_db(){
             throw new RuntimeException("Unable to create database directory: $dir");
         }
     }
+
+    // check that PDO sqlite driver is available in this PHP build
+    if (!in_array('sqlite', PDO::getAvailableDrivers())){
+        $msg = "PDO sqlite driver not found; please install/enable php-sqlite3 for the PHP SAPI running your webserver. " .
+               "CLI vs FPM may differ (check phpinfo).";
+        error_log("[shortit] " . $msg);
+        throw new RuntimeException($msg);
+    }
+
     try {
         $db = new PDO('sqlite:' . $file);
     } catch (PDOException $e){

@@ -39,6 +39,8 @@ Database file: `data/shortit.db` (created automatically on first run).
 
   Without write permission, PHP will throw an exception which, with `SHOW_ERRORS=false`, results in a blank 500 response.
 
+- The SQLite PDO driver must be enabled for **the PHP process serving the app**. You can verify this from the browser by creating a `phpinfo()` page or by logging `PDO::getAvailableDrivers()`; the list must include `sqlite`. If it doesn’t, installing `php-sqlite3` (or enabling `pdo_sqlite`/`sqlite3` in `php.ini`) and restarting the web server will fix the “could not find driver” error.
+
 - You can pre-create the SQLite file if desired; the app will also create it automatically when it can write.
 
 Features include login, create/edit shortlinks, view stats, and redirects via `/s/<slug>`.
