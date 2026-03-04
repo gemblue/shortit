@@ -1,7 +1,7 @@
 <?php include __DIR__ . '/header.php'; ?>
 <div class="max-w-xl mx-auto text-center mt-12">
   <div class="mb-4" id="banner">
-    <?= $banner_html ?>
+    <?php echo $banner_html; ?>
   </div>
   <div class="text-gray-600 mb-6">Redirecting in <span id="countdown"><?=intval($delay)?></span> seconds...</div>
   <div><a href="<?=htmlspecialchars($target)?>" class="text-blue-600">Go now</a></div>

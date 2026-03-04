@@ -32,10 +32,12 @@ if (preg_match('#^/s/([A-Za-z0-9_-]+)$#', $path, $m)){
         $ip = $_SERVER['REMOTE_ADDR'] ?? '';
         inc_click($link['id'],$referer,$ua,$ip);
         // prepare banner HTML (could be URL or raw HTML)
-        $banner_html = htmlspecialchars($link['ad_banner']);
-        // if looks like URL, render as image
         if (preg_match('#^https?://#', $link['ad_banner'])){
+            // if looks like URL, render as image
             $banner_html = '<img src="'.htmlspecialchars($link['ad_banner']).'" class="mx-auto" />';
+        } else {
+            // treat as raw HTML - don't escape
+            $banner_html = $link['ad_banner'];
         }
         $delay = intval($link['ad_delay']);
         $target = $link['url'];

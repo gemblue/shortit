@@ -15,7 +15,7 @@
     <tbody>
     <?php foreach($links as $l): ?>
       <tr class="border-t">
-        <td class="py-2"><a href="/s/<?=htmlspecialchars($l['slug'])?>" target="_blank" class="text-blue-600">/s/<?=htmlspecialchars($l['slug'])?></a></td>
+        <td class="py-2"><a href="https://cdpl.link/s/<?=htmlspecialchars($l['slug'])?>" target="_blank" class="text-blue-600">https://cdpl.link/s/<?=htmlspecialchars($l['slug'])?></a></td>
         <td class="py-2"><?=htmlspecialchars($l['title'])?></td>
         <td class="py-2"><?=intval($l['clicks'])?></td>
         <td class="py-2"><?=!empty($l['ads'])?'<span class="text-green-600">Yes</span>':'No'?></td>
