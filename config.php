@@ -16,7 +16,16 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')){
 return [
     'admin_user' => $_ENV['ADMIN_USER'] ?? ($_SERVER['ADMIN_USER'] ?? 'admin'),
     'admin_pass' => $_ENV['ADMIN_PASS'] ?? ($_SERVER['ADMIN_PASS'] ?? 'password'),
+    // database configuration: driver can be 'sqlite' or 'mysql'
+    'db_driver' => $_ENV['DB_DRIVER'] ?? ($_SERVER['DB_DRIVER'] ?? 'sqlite'),
+    // sqlite options
     'db_file' => __DIR__ . '/' . ( $_ENV['DB_PATH'] ?? ($_SERVER['DB_PATH'] ?? 'data/shortit.db') ),
+    // mysql options (used if driver=mysql)
+    'db_host' => $_ENV['DB_HOST'] ?? ($_SERVER['DB_HOST'] ?? '127.0.0.1'),
+    'db_port' => $_ENV['DB_PORT'] ?? ($_SERVER['DB_PORT'] ?? 3306),
+    'db_name' => $_ENV['DB_NAME'] ?? ($_SERVER['DB_NAME'] ?? 'shortit'),
+    'db_user' => $_ENV['DB_USER'] ?? ($_SERVER['DB_USER'] ?? 'root'),
+    'db_pass' => $_ENV['DB_PASS'] ?? ($_SERVER['DB_PASS'] ?? ''),
     // control whether PHP errors are shown on screen
     'show_errors' => filter_var($_ENV['SHOW_ERRORS'] ?? ($_SERVER['SHOW_ERRORS'] ?? false), FILTER_VALIDATE_BOOLEAN),
 ];
