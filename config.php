@@ -17,4 +17,6 @@ return [
     'admin_user' => $_ENV['ADMIN_USER'] ?? ($_SERVER['ADMIN_USER'] ?? 'admin'),
     'admin_pass' => $_ENV['ADMIN_PASS'] ?? ($_SERVER['ADMIN_PASS'] ?? 'password'),
     'db_file' => __DIR__ . '/' . ( $_ENV['DB_PATH'] ?? ($_SERVER['DB_PATH'] ?? 'data/shortit.db') ),
+    // control whether PHP errors are shown on screen
+    'show_errors' => filter_var($_ENV['SHOW_ERRORS'] ?? ($_SERVER['SHOW_ERRORS'] ?? false), FILTER_VALIDATE_BOOLEAN),
 ];

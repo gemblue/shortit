@@ -1,5 +1,14 @@
 <?php
 require __DIR__ . '/lib/db.php';
+// load config early to pick up environment variables
+$config = require __DIR__ . '/config.php';
+// configure error display based on env
+if (!empty($config['show_errors'])) {
+    ini_set('display_errors','1');
+    error_reporting(E_ALL);
+} else {
+    ini_set('display_errors','0');
+}
 session_start();
 
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);

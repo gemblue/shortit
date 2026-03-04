@@ -14,6 +14,8 @@ composer install
 cp .env.example .env
 ```
 
+   - you can also set `SHOW_ERRORS=true` in `.env` to display all PHP errors during development.
+
 3. Start built-in PHP server from the project root:
 
 ```bash
