@@ -6,8 +6,19 @@ function get_db(){
     $cfg = require __DIR__ . '/../config.php';
     $file = $cfg['db_file'];
     $dir = dirname($file);
-    if (!is_dir($dir)) mkdir($dir, 0755, true);
-    $db = new PDO('sqlite:' . $file);
+    if (!is_dir($dir)) {
+        if (!mkdir($dir, 0755, true) && !is_dir($dir)){
+            error_log("[shortit] Failed to create directory $dir");
+            throw new RuntimeException("Unable to create database directory: $dir");
+        }
+    }
+    try {
+        $db = new PDO('sqlite:' . $file);
+    } catch (PDOException $e){
+        // if it's a permission or file problem, fail early with message
+        error_log("[shortit] PDO open error: " . $e->getMessage());
+        throw $e;
+    }
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     init_schema($db);
     return $db;
