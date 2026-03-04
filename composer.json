@@ -1,0 +1,11 @@
+{
+  "name": "shortit/simple-shortener",
+  "description": "Simple PHP link shortener",
+  "require": {
+    "php": ">=7.4",
+    "vlucas/phpdotenv": "^5.5"
+  },
+  "autoload": {
+    "psr-4": {"Shortit\\": "src/"}
+  }
+}
