@@ -14,6 +14,15 @@
     <label class="block mb-4">Custom Slug (optional)
       <input name="slug" value="<?=htmlspecialchars($slug ?? '')?>" class="mt-1 block w-full border rounded px-2 py-1" />
     </label>
+    <label class="block mb-2">
+      <input type="checkbox" name="ads" value="1" <?=!empty($ads)?'checked':''?> /> Show ad before redirect
+    </label>
+    <label class="block mb-2">Ad banner URL or HTML
+      <input name="ad_banner" value="<?=htmlspecialchars($ad_banner ?? '')?>" class="mt-1 block w-full border rounded px-2 py-1" />
+    </label>
+    <label class="block mb-4">Ad delay seconds
+      <input type="number" name="ad_delay" value="<?=htmlspecialchars($ad_delay ?? 0)?>" min="0" class="mt-1 block w-full border rounded px-2 py-1" />
+    </label>
     <div class="flex justify-end">
       <button class="bg-green-600 text-white px-4 py-2 rounded">Create</button>
     </div>

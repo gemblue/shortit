@@ -16,6 +16,15 @@
   </div>
 
   <?php if(!empty($selected_link)): ?>
+  <div class="bg-white rounded shadow p-4 mb-4">
+    <h3 class="font-medium mb-2">Link details for /s/<?=htmlspecialchars($selected_link['slug'])?></h3>
+    <p>Title: <?=htmlspecialchars($selected_link['title'])?></p>
+    <p>Ads: <?=!empty($selected_link['ads'])?'Yes':'No'?></p>
+    <?php if(!empty($selected_link['ads'])): ?>
+      <p>Banner: <?=htmlspecialchars($selected_link['ad_banner'])?></p>
+      <p>Delay: <?=intval($selected_link['ad_delay'])?> seconds</p>
+    <?php endif; ?>
+  </div>
   <div class="bg-white rounded shadow p-4">
     <h3 class="font-medium mb-2">Recent Clicks for /s/<?=htmlspecialchars($selected_link['slug'])?></h3>
     <table class="w-full text-left text-sm">

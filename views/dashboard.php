@@ -11,13 +11,14 @@
 <div class="bg-white shadow rounded p-4">
   <h3 class="font-medium mb-3">Your Links</h3>
   <table class="w-full text-left text-sm">
-    <thead class="text-gray-500"><tr><th>Slug</th><th>Title</th><th>Clicks</th><th>Actions</th></tr></thead>
+    <thead class="text-gray-500"><tr><th>Slug</th><th>Title</th><th>Clicks</th><th>Ads</th><th>Actions</th></tr></thead>
     <tbody>
     <?php foreach($links as $l): ?>
       <tr class="border-t">
         <td class="py-2"><a href="/s/<?=htmlspecialchars($l['slug'])?>" target="_blank" class="text-blue-600">/s/<?=htmlspecialchars($l['slug'])?></a></td>
         <td class="py-2"><?=htmlspecialchars($l['title'])?></td>
         <td class="py-2"><?=intval($l['clicks'])?></td>
+        <td class="py-2"><?=!empty($l['ads'])?'<span class="text-green-600">Yes</span>':'No'?></td>
         <td class="py-2"><a href="/admin/stats?link=<?=intval($l['id'])?>" class="text-gray-600">view</a> | <a href="/admin/edit?link=<?=intval($l['id'])?>" class="text-yellow-600">edit</a></td>
       </tr>
     <?php endforeach; ?>

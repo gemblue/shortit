@@ -23,7 +23,27 @@ if (preg_match('#^/s/([A-Za-z0-9_-]+)$#', $path, $m)){
     $slug = $m[1];
     $link = find_link_by_slug($slug);
     if (!$link){ http_response_code(404); echo 'Not found'; exit; }
-    // record click
+
+    // if ads enabled, show ad page and redirect later
+    if (!empty($link['ads'])){
+        // record click now (user saw the ad)
+        $referer = $_SERVER['HTTP_REFERER'] ?? '';
+        $ua = $_SERVER['HTTP_USER_AGENT'] ?? '';
+        $ip = $_SERVER['REMOTE_ADDR'] ?? '';
+        inc_click($link['id'],$referer,$ua,$ip);
+        // prepare banner HTML (could be URL or raw HTML)
+        $banner_html = htmlspecialchars($link['ad_banner']);
+        // if looks like URL, render as image
+        if (preg_match('#^https?://#', $link['ad_banner'])){
+            $banner_html = '<img src="'.htmlspecialchars($link['ad_banner']).'" class="mx-auto" />';
+        }
+        $delay = intval($link['ad_delay']);
+        $target = $link['url'];
+        include __DIR__ . '/views/ad.php';
+        exit;
+    }
+
+    // record click immediately
     $referer = $_SERVER['HTTP_REFERER'] ?? '';
     $ua = $_SERVER['HTTP_USER_AGENT'] ?? '';
     $ip = $_SERVER['REMOTE_ADDR'] ?? '';
@@ -67,10 +87,14 @@ if (strpos($path, '/admin') === 0){
     if ($path === '/admin/create'){
         $msg = $error = '';
         $title = $url = $slug = '';
+        $ads = 0; $ad_banner = ''; $ad_delay = 0;
         if ($method === 'POST'){
             $title = trim($_POST['title'] ?? '');
             $url = trim($_POST['url'] ?? '');
             $slug = trim($_POST['slug'] ?? '');
+            $ads = !empty($_POST['ads']) ? 1 : 0;
+            $ad_banner = trim($_POST['ad_banner'] ?? '');
+            $ad_delay = intval($_POST['ad_delay'] ?? 0);
             if (empty($url)) $error = 'URL is required';
             else {
                 if (empty($slug)){
@@ -81,9 +105,10 @@ if (strpos($path, '/admin') === 0){
                 if ($other){
                     $error = 'Slug already used, choose another';
                 } else {
-                    create_link($slug, $url, $title ?: $url);
+                    create_link($slug, $url, $title ?: $url, $ads, $ad_banner, $ad_delay);
                     $msg = 'Created: /s/' . $slug;
                     $title = $url = $slug = '';
+                    $ads = 0; $ad_banner = ''; $ad_delay = 0;
                 }
             }
         }
@@ -104,17 +129,23 @@ if (strpos($path, '/admin') === 0){
         $title = $link['title'];
         $url = $link['url'];
         $slug = $link['slug'];
+        $ads = $link['ads'] ?? 0;
+        $ad_banner = $link['ad_banner'] ?? '';
+        $ad_delay = $link['ad_delay'] ?? 0;
         if ($method === 'POST'){
             $title = trim($_POST['title'] ?? '');
             $url = trim($_POST['url'] ?? '');
             $slug = trim($_POST['slug'] ?? '');
+            $ads = !empty($_POST['ads']) ? 1 : 0;
+            $ad_banner = trim($_POST['ad_banner'] ?? '');
+            $ad_delay = intval($_POST['ad_delay'] ?? 0);
             if (empty($url)) $error = 'URL is required';
             else {
                 $other = find_link_by_slug($slug);
                 if ($other && $other['id'] != $id){
                     $error = 'Slug already used, choose another';
                 } else {
-                    update_link($id, $slug, $url, $title ?: $url);
+                    update_link($id, $slug, $url, $title ?: $url, $ads, $ad_banner, $ad_delay);
                     $msg = 'Updated';
                 }
             }

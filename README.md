@@ -28,56 +28,30 @@ Database file: `data/shortit.db` (created automatically on first run).
 
 ⚠️ **Production notes**
 
-*SQLite (default)*
+*MySQL*  
 
-- If you are still using SQLite, ensure the `data/` directory exists and is writable by the web server user. If not, create it yourself:
+This application now uses MySQL exclusively. Make sure to set environment variables for connection:
 
-  ```bash
-  mkdir -p data
-  touch data/shortit.db
-  chown www-data:www-data data data/shortit.db  # or your PHP user
-  chmod 664 data/shortit.db
-  ```
-
-  Without write permission, PHP will throw an exception which, with `SHOW_ERRORS=false`, results in a blank 500 response.
-
-- The SQLite PDO driver must be enabled for **the PHP process serving the app**. Verify via `phpinfo()` or `PDO::getAvailableDrivers()`; the list must include `sqlite`.
-
-- You can pre-create the SQLite file if desired; the app will also create it automatically when it can write. Once you have migrated to MySQL and updated `DB_DRIVER`, you can safely delete `data/shortit.db` (as you just did) and the `data/` folder is no longer used.
-
-*MySQL (alternate)*
-
-To run against MySQL instead of SQLite, set environment variables
-(`DB_DRIVER=mysql` plus connection info) and the code will switch. A simple
-MySQL schema, suitable for importing on production, is included in
-`mysql-schema.sql` (see below). After importing, the application will
-create any missing tables when first accessed.
-
-If you already have data in `data/shortit.db` and want to migrate it, you
-can dump and convert it with tools like `sqlite3` and `mysql`:
-
-```bash
-# export sqlite data as INSERT statements
-sqlite3 data/shortit.db \
-  ".output /tmp/shortit.sql" \
-  ".dump links" \
-  ".dump clicks"
-
-# the dump may need minor editing (change AUTOINCREMENT syntax, etc.)
-# or use the mysql-schema.sql as a base and load data with csv export:
-sqlite3 -header -csv data/shortit.db "SELECT * FROM links;" > links.csv
-mysql -u root shortit -e "LOAD DATA LOCAL INFILE 'links.csv' INTO TABLE links FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\n' IGNORE 1 ROWS;"
+```ini
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_NAME=shortit
+DB_USER=root
+DB_PASS=secret
 ```
 
-The above gives you an idea; for a clean production import just run:
+Then import the schema into your database:
 
 ```bash
-mysql -u root -e "CREATE DATABASE IF NOT EXISTS shortit;"
-mysql -u root shortit < mysql-schema.sql
-# then follow migration commands above if necessary
+mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS shortit;"
+mysql -u root -p shortit < mysql-schema.sql
 ```
 
-Once MySQL is in use, the PHP application will run completely via `mysqli`.
+The code will automatically create missing tables when first accessed, so the import step is mainly for initial provisioning or when upgrading.
+
+If you previously used SQLite, you can migrate the data by exporting rows and loading them into MySQL using CSV or SQL dump; review the `mysql-schema.sql` file for the table layout.
+
+Once MySQL is in use, the PHP application runs entirely via `mysqli`.
 
 The PHP code uses `mysqli` for MySQL connections.
 
