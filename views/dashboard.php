@@ -15,10 +15,10 @@
     <tbody>
     <?php foreach($links as $l): ?>
       <tr class="border-t">
-        <td class="py-2"><a href="/s/<?=htmlspecialchars($l['slug'])?>" class="text-blue-600">/s/<?=htmlspecialchars($l['slug'])?></a></td>
+        <td class="py-2"><a href="/s/<?=htmlspecialchars($l['slug'])?>" target="_blank" class="text-blue-600">/s/<?=htmlspecialchars($l['slug'])?></a></td>
         <td class="py-2"><?=htmlspecialchars($l['title'])?></td>
         <td class="py-2"><?=intval($l['clicks'])?></td>
-        <td class="py-2"><a href="/admin/stats?link=<?=intval($l['id'])?>" class="text-gray-600">view</a></td>
+        <td class="py-2"><a href="/admin/stats?link=<?=intval($l['id'])?>" class="text-gray-600">view</a> | <a href="/admin/edit?link=<?=intval($l['id'])?>" class="text-yellow-600">edit</a></td>
       </tr>
     <?php endforeach; ?>
     </tbody>

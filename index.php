@@ -68,7 +68,8 @@ if (strpos($path, '/admin') === 0){
                     $slug = substr(bin2hex(random_bytes(4)),0,6);
                 }
                 // ensure unique
-                if (find_link_by_slug($slug)){
+                $other = find_link_by_slug($slug);
+                if ($other){
                     $error = 'Slug already used, choose another';
                 } else {
                     create_link($slug, $url, $title ?: $url);
@@ -78,6 +79,38 @@ if (strpos($path, '/admin') === 0){
             }
         }
         include __DIR__ . '/views/create.php';
+        exit;
+    }
+    if ($path === '/admin/edit'){
+        $msg = $error = '';
+        $id = intval($_GET['link'] ?? $_POST['id'] ?? 0);
+        $link = null;
+        if ($id) {
+            $links = list_links();
+            foreach($links as $l) if($l['id']==$id) $link = $l;
+        }
+        if (!$link){
+            http_response_code(404); echo 'Link not found'; exit;
+        }
+        $title = $link['title'];
+        $url = $link['url'];
+        $slug = $link['slug'];
+        if ($method === 'POST'){
+            $title = trim($_POST['title'] ?? '');
+            $url = trim($_POST['url'] ?? '');
+            $slug = trim($_POST['slug'] ?? '');
+            if (empty($url)) $error = 'URL is required';
+            else {
+                $other = find_link_by_slug($slug);
+                if ($other && $other['id'] != $id){
+                    $error = 'Slug already used, choose another';
+                } else {
+                    update_link($id, $slug, $url, $title ?: $url);
+                    $msg = 'Updated';
+                }
+            }
+        }
+        include __DIR__ . '/views/edit.php';
         exit;
     }
 

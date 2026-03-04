@@ -23,3 +23,5 @@ php -S localhost:8000
 4. Open http://localhost:8000/admin/login to access admin.
 
 Database file: `data/shortit.db` (created automatically on first run).
+
+Features include login, create/edit shortlinks, view stats, and redirects via `/s/<slug>`.

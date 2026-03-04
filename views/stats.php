@@ -9,7 +9,7 @@
       <thead class="text-gray-500"><tr><th>Slug</th><th>Title</th><th>Clicks</th><th></th></tr></thead>
       <tbody>
       <?php foreach($links as $l): ?>
-        <tr class="border-t"><td class="py-2">/s/<?=htmlspecialchars($l['slug'])?></td><td class="py-2"><?=htmlspecialchars($l['title'])?></td><td class="py-2"><?=intval($l['clicks'])?></td><td class="py-2"><a href="/admin/stats?link=<?=intval($l['id'])?>">view</a></td></tr>
+        <tr class="border-t"><td class="py-2">/s/<?=htmlspecialchars($l['slug'])?></td><td class="py-2"><?=htmlspecialchars($l['title'])?></td><td class="py-2"><?=intval($l['clicks'])?></td><td class="py-2"><a href="/admin/stats?link=<?=intval($l['id'])?>">view</a> | <a href="/admin/edit?link=<?=intval($l['id'])?>">edit</a></td></tr>
       <?php endforeach; ?>
       </tbody>
     </table>

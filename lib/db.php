@@ -48,6 +48,12 @@ function create_link($slug, $url, $title){
     return $db->lastInsertId();
 }
 
+function update_link($id, $slug, $url, $title){
+    $db = get_db();
+    $stmt = $db->prepare('UPDATE links SET slug = :slug, url = :url, title = :title WHERE id = :id');
+    $stmt->execute([':slug'=>$slug,':url'=>$url,':title'=>$title,':id'=>$id]);
+}
+
 function inc_click($link_id, $referer, $ua, $ip){
     $db = get_db();
     $stmt = $db->prepare('INSERT INTO clicks (link_id,referer,ua,ip,created_at) VALUES (:lid,:ref,:ua,:ip,:now)');

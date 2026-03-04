@@ -1,7 +1,7 @@
 <?php include __DIR__ . '/header.php'; ?>
 <div class="max-w-md mx-auto mt-12">
   <form method="post" class="bg-white p-6 rounded shadow">
-    <h2 class="text-lg font-medium mb-4">Admin Login</h2>
+    <h2 class="text-lg font-medium mb-4">Welcome back, why shorting is so urgent? Calm down, you're in control.</h2>
     <?php if(!empty($error)): ?><div class="text-red-600 mb-3"><?=htmlspecialchars($error)?></div><?php endif; ?>
     <label class="block mb-2">Username
       <input name="user" class="mt-1 block w-full border rounded px-2 py-1" />
