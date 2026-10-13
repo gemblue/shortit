@@ -16,11 +16,13 @@ cp .env.example .env
 
    - you can also set `SHOW_ERRORS=true` in `.env` to display all PHP errors during development.
 
-3. Start built-in PHP server from the project root:
+3. Start built-in PHP server with the `public/` directory as document root:
 
 ```bash
-php -S localhost:8000
+php -S localhost:8000 -t public
 ```
+
+   The web entry point is `public/index.php`. Application code (`config.php`, `lib/`, `views/`, `vendor/`, `.env`) stays outside the document root, so it is not reachable over HTTP.
 
 4. Open http://localhost:8000/admin/login to access admin.
 
