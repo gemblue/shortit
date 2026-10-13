@@ -1,7 +1,7 @@
 <?php
-require __DIR__ . '/lib/db.php';
+require __DIR__ . '/../lib/db.php';
 // load config early to pick up environment variables
-$config = require __DIR__ . '/config.php';
+$config = require __DIR__ . '/../config.php';
 // configure error display based on env
 if (!empty($config['show_errors'])) {
     ini_set('display_errors','1');
@@ -41,7 +41,7 @@ if (preg_match('#^/s/([A-Za-z0-9_-]+)$#', $path, $m)){
         }
         $delay = intval($link['ad_delay']);
         $target = $link['url'];
-        include __DIR__ . '/views/ad.php';
+        include __DIR__ . '/../views/ad.php';
         exit;
     }
 
@@ -60,7 +60,7 @@ if (strpos($path, '/admin') === 0){
     if ($path === '/admin/login'){
         $error = '';
         if ($method === 'POST'){
-            $cfg = require __DIR__ . '/config.php';
+            $cfg = require __DIR__ . '/../config.php';
             $u = $_POST['user'] ?? '';
             $p = $_POST['pass'] ?? '';
             if ($u === $cfg['admin_user'] && $p === $cfg['admin_pass']){
@@ -70,7 +70,7 @@ if (strpos($path, '/admin') === 0){
                 $error = 'Invalid credentials';
             }
         }
-        include __DIR__ . '/views/login.php';
+        include __DIR__ . '/../views/login.php';
         exit;
     }
 
@@ -82,7 +82,7 @@ if (strpos($path, '/admin') === 0){
 
     if ($path === '/admin' || $path === '/admin/'){
         $links = list_links();
-        include __DIR__ . '/views/dashboard.php';
+        include __DIR__ . '/../views/dashboard.php';
         exit;
     }
 
@@ -114,7 +114,7 @@ if (strpos($path, '/admin') === 0){
                 }
             }
         }
-        include __DIR__ . '/views/create.php';
+        include __DIR__ . '/../views/create.php';
         exit;
     }
     if ($path === '/admin/edit'){
@@ -152,7 +152,7 @@ if (strpos($path, '/admin') === 0){
                 }
             }
         }
-        include __DIR__ . '/views/edit.php';
+        include __DIR__ . '/../views/edit.php';
         exit;
     }
 
@@ -164,7 +164,7 @@ if (strpos($path, '/admin') === 0){
             foreach($links as $l) if($l['id']==$id) $selected_link = $l;
             if ($selected_link) $clicks = get_clicks_for_link($selected_link['id'], 200);
         }
-        include __DIR__ . '/views/stats.php';
+        include __DIR__ . '/../views/stats.php';
         exit;
     }
 
